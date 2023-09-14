@@ -37,6 +37,17 @@ public class OrderController implements CrudController<OrderResults> {
 		for (OrderResults order : listOfOrders) {
 			LOGGER.info(order);
 		}
+		String ans;
+		do{
+			LOGGER.info("Would you like to get the cost of an order?");
+			ans = utils.getString();
+			ans.toLowerCase();
+			if(ans.equals("yes")){
+				calculateCostOfOrderId();
+			}
+
+		}while(!(ans.equals("yes")) && !(ans.equals("no")));
+
 		return listOfOrders;
 	}
 
@@ -125,6 +136,13 @@ public class OrderController implements CrudController<OrderResults> {
 		return null;
         }
 
+	public void calculateCostOfOrderId(){
+			LOGGER.info("Please enter the order id of the order you would like to update");
+			Long orderId = Long.parseLong(utils.getString());
+
+			LOGGER.info("The cost of order " + orderId + ": "+ OrderDAO.cost(orderId) );
+		}
+
 
 	/**
 	 * Deletes an existing Order by the id of the Order
@@ -133,7 +151,7 @@ public class OrderController implements CrudController<OrderResults> {
 	 */
 	
 	public int delete() {
-		LOGGER.info("Please enter the id of the Order you would like to delete");
+		LOGGER.info("Please enter the id of the order you would like to delete");
 		Long id = utils.getLong();
 		return OrderDAO.delete(id);
 	}

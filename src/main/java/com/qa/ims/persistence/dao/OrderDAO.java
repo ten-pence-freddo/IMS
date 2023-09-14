@@ -155,6 +155,24 @@ public class OrderDAO {
 		return 0;
 	}
 
+	public Float cost(Long orderId){
+		try (Connection connection = DBUtils.getInstance().getConnection();
+				PreparedStatement statement =
+               connection.prepareStatement("SELECT sum(item.price) FROM item, orders, orders_items where orders.id = orders_items.order_id and orders_items.item_id = item.id and orders.id = ?");) {
+					statement.setLong(1, orderId);
+
+			try (ResultSet resultSet = statement.executeQuery();) {
+				resultSet.next();
+				return resultSet.getFloat(1);
+			}
+			
+		} catch (SQLException e) {
+			LOGGER.debug(e);
+			LOGGER.error(e.getMessage());
+		}
+		return null;
+	}
+
 	public Long getLatestOrderId(){
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				PreparedStatement statement = connection.prepareStatement("select id FROM orders order by id desc limit 1");) {
