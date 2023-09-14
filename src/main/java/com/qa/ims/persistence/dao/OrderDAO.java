@@ -28,8 +28,10 @@ public class OrderDAO {
         Long itemId = resultSet.getLong("item_id");
         String itemName = resultSet.getString("name");
         Long quantity = resultSet.getLong("quantity");
+		Float price = resultSet.getFloat("price");
 
-		return new OrderResults(id, firstName, surname, customerId, itemId, itemName, quantity);
+
+		return new OrderResults(id, firstName, surname, customerId, itemId, itemName, quantity, price);
 	}
 
 	/**
@@ -42,7 +44,7 @@ public class OrderDAO {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				Statement statement = connection.createStatement();
 				ResultSet resultSet = 
-                statement.executeQuery("SELECT orders.id, customers.first_name, customers.surname, orders.customer_id, orders_items.item_id, item.name, orders_items.quantity FROM customers, item, orders, orders_items where orders.id = orders_items.order_id and customers.id = orders.customer_id and orders_items.item_id = item.id");) {
+                statement.executeQuery("SELECT orders.id, customers.first_name, customers.surname, orders.customer_id, orders_items.item_id, item.name, orders_items.quantity, item.price FROM customers, item, orders, orders_items where orders.id = orders_items.order_id and customers.id = orders.customer_id and orders_items.item_id = item.id");) {
 			List<OrderResults> Order = new ArrayList<>();
 			while (resultSet.next()) {
 				Order.add(modelFromResultSet(resultSet));
@@ -158,7 +160,7 @@ public class OrderDAO {
 	public Float cost(Long orderId){
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				PreparedStatement statement =
-               connection.prepareStatement("SELECT sum(item.price) FROM item, orders, orders_items where orders.id = orders_items.order_id and orders_items.item_id = item.id and orders.id = ?");) {
+               connection.prepareStatement("SELECT sum(item.price * orders_items.quantity ) FROM item, orders, orders_items where orders.id = orders_items.order_id and orders_items.item_id = item.id and orders.id = ?");) {
 					statement.setLong(1, orderId);
 
 			try (ResultSet resultSet = statement.executeQuery();) {

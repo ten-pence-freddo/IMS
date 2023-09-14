@@ -9,9 +9,10 @@ public class OrderResults {
     private Long itemId;
     private String itemName;
     private Long quantity;
+	private Float price;
 
     
-    public OrderResults(Long orderId, String firstName, String surname, Long customerId, Long itemId, String itemName, Long quantity ) {
+    public OrderResults(Long orderId, String firstName, String surname, Long customerId, Long itemId, String itemName, Long quantity, Float price ) {
 		this.orderId = orderId;
         this.firstName = firstName;
         this.surname = surname;
@@ -19,6 +20,7 @@ public class OrderResults {
         this.itemId = itemId;
         this.itemName = itemName;
         this.quantity = quantity;
+		this.price = price;
 	}
 
   public Long getOrderId() {
@@ -77,9 +79,17 @@ public class OrderResults {
 		this.quantity = quantity;
 	}
 
+	public Float getPrice() {
+		return this.price;
+	}
+
+  public void setPrice(Float price) {
+		this.price = price;
+	}
+
 	//@Override
 	public String toString() {
-		return "order_id:" + orderId + " first_name:" + firstName + " surname:" + surname + " customer_id:" + customerId + " item_id:" + itemId + " item_name:" + itemName + " quantity:" + quantity;
+		return "order_id:" + orderId + " first_name:" + firstName + " surname:" + surname + " customer_id:" + customerId + " item_id:" + itemId + " item_name:" + itemName + " quantity:" + quantity + " price_per_item:" + price;
 	}
 
   /* 

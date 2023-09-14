@@ -137,7 +137,7 @@ public class OrderController implements CrudController<OrderResults> {
         }
 
 	public void calculateCostOfOrderId(){
-			LOGGER.info("Please enter the order id of the order you would like to update");
+			LOGGER.info("Please enter the order id of the order you would like to calculate the cost for");
 			Long orderId = Long.parseLong(utils.getString());
 
 			LOGGER.info("The cost of order " + orderId + ": "+ OrderDAO.cost(orderId) );
