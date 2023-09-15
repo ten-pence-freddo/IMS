@@ -76,35 +76,35 @@ public class OrderDAO {
 	 * @param Order - takes in a Order object. id will be ignored
 	 */
 	
-	public void create(Order Order) {
+	public OrderResults create(Order Order) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				PreparedStatement statement = connection
 						.prepareStatement("INSERT INTO orders(customer_id) VALUES (?)");) {
 			statement.setLong(1, Order.getCustomerId());
 
 			statement.executeUpdate();
-			//return readLatest();
+			return readLatest();
 		} catch (Exception e) {
 			LOGGER.debug(e);
 			LOGGER.error(e.getMessage());
 		}
-		//return null;
+		return null;
 	}
 
 	
-	public void read(Long id) {
+	public OrderResults read(Long id) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				PreparedStatement statement = connection.prepareStatement("SELECT * FROM orders WHERE id = ?");) {
 			statement.setLong(1, id);
 			try (ResultSet resultSet = statement.executeQuery();) {
 				resultSet.next();
-				//return modelFromResultSet(resultSet);
+				return modelFromResultSet(resultSet);
 			}
 		} catch (Exception e) {
 			LOGGER.debug(e);
 			LOGGER.error(e.getMessage());
 		}
-		//return null;
+		return null;
 	}
 
 	/**
@@ -115,19 +115,19 @@ public class OrderDAO {
 	 * @return
 	 */
 
-	public void update(Order order) {
+	public OrderResults update(Order order) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				PreparedStatement statement = connection
 						.prepareStatement("UPDATE orders SET customer_id = ? WHERE id = ?");) {
 			statement.setLong(1, order.getCustomerId());
 			statement.setLong(2, order.getId());
 			statement.executeUpdate();
-			//return read(order.getId());
+			return read(order.getId());
 		} catch (Exception e) {
 			LOGGER.debug(e);
 			LOGGER.error(e.getMessage());
 		}
-		//return null;
+		return null;
 	}
 
 	/**

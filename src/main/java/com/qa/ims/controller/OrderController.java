@@ -32,6 +32,7 @@ public class OrderController implements CrudController<OrderResults> {
 	/**
 	 * Reads all Orders to the logger
 	 */
+	@Override
 	public List<OrderResults> readAll() {
 		List<OrderResults> listOfOrders = OrderDAO.readAll();
 		for (OrderResults order : listOfOrders) {
@@ -54,13 +55,14 @@ public class OrderController implements CrudController<OrderResults> {
 	/**
 	 * Creates a Order by taking in user input
 	 */
-	
+	//order/ordersItems
 	public OrderResults create() {
 		LOGGER.info("Please enter customer id");
 		Long customerId = Long.parseLong(utils.getString());
         String more = "yes";
 		Order curOrder = new Order(customerId);
-        OrderDAO.create(curOrder);
+		OrderResults orderResults;
+        orderResults = OrderDAO.create(curOrder);
         while(more == "yes"){
             LOGGER.info("Please enter the item id");
     		Long itemId = Long.parseLong(utils.getString());
@@ -80,13 +82,14 @@ public class OrderController implements CrudController<OrderResults> {
 		 
 
 		LOGGER.info("Order created");
-		return null;
+		return orderResults;
 	}
 
 	/**
 	 * Updates an existing Order by taking in user input
 	 */
-	
+	@Override
+	//orders/OrdersItems
 	public OrderResults update() {
         LOGGER.info("Please enter the order id of the order you would like to update");
 		Long orderId = Long.parseLong(utils.getString());
@@ -94,7 +97,7 @@ public class OrderController implements CrudController<OrderResults> {
 		Long customerId = Long.parseLong(utils.getString());
 		
         String more = "yes";
-        OrderDAO.update(new Order(orderId ,customerId));
+        OrderResults res = OrderDAO.update(new Order(orderId ,customerId));
 		String addOrDeleteString;
 		do{
 		LOGGER.info("Do you want to add/delete items from this order? (add/delete/no)");
@@ -133,14 +136,15 @@ public class OrderController implements CrudController<OrderResults> {
 		}
 		}while(!addOrDeleteString.equals("no") && !addOrDeleteString.equals("add") && !addOrDeleteString.equals("delete"));
 		LOGGER.info("Order Updated");
-		return null;
+		return res;
         }
 
-	public void calculateCostOfOrderId(){
+		public Float calculateCostOfOrderId(){
 			LOGGER.info("Please enter the order id of the order you would like to calculate the cost for");
 			Long orderId = Long.parseLong(utils.getString());
-
+			Float cost = OrderDAO.cost(orderId);
 			LOGGER.info("The cost of order " + orderId + ": "+ OrderDAO.cost(orderId) );
+			return cost;
 		}
 
 
@@ -149,7 +153,7 @@ public class OrderController implements CrudController<OrderResults> {
 	 * 
 	 * @return
 	 */
-	
+	@Override
 	public int delete() {
 		LOGGER.info("Please enter the id of the order you would like to delete");
 		Long id = utils.getLong();

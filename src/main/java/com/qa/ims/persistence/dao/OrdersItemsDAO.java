@@ -67,7 +67,7 @@ public class OrdersItemsDAO {
 	 * @param OrdersItems - takes in a OrdersItems object. id will be ignored
 	 */
 
-	public static void create(OrdersItems OrdersItems) {
+	public static OrdersItems create(OrdersItems OrdersItems) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				PreparedStatement statement = connection
 						.prepareStatement("INSERT INTO orders_items(order_id, item_id, quantity) VALUES (?, ?, ?)");) {
@@ -76,29 +76,29 @@ public class OrdersItemsDAO {
             statement.setLong(3, OrdersItems.getQuantity());
 
 			statement.executeUpdate();
-			//return readLatest();
+			return readLatest();
 		} catch (Exception e) {
 			LOGGER.debug(e);
 			LOGGER.error(e.getMessage());
 		}
-		//eturn null;
+		return null;
 	}
 
 	
-	public static void read(Long orderId, Long itemId) {
+	public static OrdersItems read(Long orderId, Long itemId) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				PreparedStatement statement = connection.prepareStatement("SELECT * FROM orders_items WHERE order_id = ? and item_id = ?");) {
 			statement.setLong(1, orderId);
             statement.setLong(2, itemId);
 			try (ResultSet resultSet = statement.executeQuery();) {
 				resultSet.next();
-				//return modelFromResultSet(resultSet);
+				return modelFromResultSet(resultSet);
 			}
 		} catch (Exception e) {
 			LOGGER.debug(e);
 			LOGGER.error(e.getMessage());
 		}
-		//return null;
+		return null;
 	}
 
 	/**
@@ -109,7 +109,7 @@ public class OrdersItemsDAO {
 	 * @return
 	 */
 	
-	public static void update(OrdersItems OrdersItems) {
+	public static OrdersItems update(OrdersItems OrdersItems) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				PreparedStatement statement = connection
 						.prepareStatement("UPDATE orders_items SET quantity = ? WHERE order_id = ? AND item_id = ?");) {
@@ -117,12 +117,12 @@ public class OrdersItemsDAO {
 			statement.setLong(2, OrdersItems.getOrderId());
 			statement.setLong(3, OrdersItems.getItemId());
 			statement.executeUpdate();
-			//return read(OrdersItems.getOrderId(), OrdersItems.getItemId() );
+			return read(OrdersItems.getOrderId(), OrdersItems.getItemId() );
 		} catch (Exception e) {
 			LOGGER.debug(e);
 			LOGGER.error(e.getMessage());
 		}
-		//return null;
+		return null;
 	}
 
 	/**
@@ -130,7 +130,7 @@ public class OrdersItemsDAO {
 	 * 
 	 * @param id - id of the OrdersItems
 	 */
-
+	
 	public static int delete(long order_id, long item_id) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				PreparedStatement statement = connection.prepareStatement("DELETE FROM orders_items WHERE order_id = ? and item_id = ?");) {
