@@ -51,6 +51,59 @@ public class OrderControllerTest {
 	}
 
 	@Test
+	public void testCreate2() {
+		final Long ID = 1L;
+        final Long CUSTOMER_ID = 3L;
+		final Order created = new Order(CUSTOMER_ID);
+		final OrderResults orderResults = new OrderResults(ID, "Alex", "Furgeson", CUSTOMER_ID, 4L, "Playdough", 2L, 3.7F);
+
+		Mockito.when(utils.getString()).thenReturn(Long.toString(CUSTOMER_ID), "4","2", "yes", "3", "5", "amhsh", "no");
+		Mockito.when(dao.create(created)).thenReturn(orderResults);
+		Mockito.when(dao.getLatestOrderId()).thenReturn(1L);
+
+		assertEquals(orderResults, controller.create());
+
+		Mockito.verify(utils, Mockito.times(8)).getString();
+		Mockito.verify(dao, Mockito.times(1)).create(created);
+	}
+
+	@Test
+	public void testReadAllAndCost(){
+		List<OrderResults> OrderResults = new ArrayList<>();
+		OrderResults.add(new OrderResults(10L, "Bart", "Simpson", 3L, 7L, "Archery Set", 4L, 12F));
+
+        Mockito.when(utils.getString()).thenReturn("yes", "10" );
+
+		Mockito.when(dao.readAll()).thenReturn(OrderResults);
+
+		//Mockito.when(controller.calculateCostOfOrderId()).thenReturn(48.0F);
+
+		//assertEquals(new Float(48.0F), controller.calculateCostOfOrderId());
+		assertEquals(OrderResults, controller.readAll());
+
+        Mockito.verify(utils, Mockito.times(2)).getString();
+		Mockito.verify(dao, Mockito.times(1)).readAll();
+	}
+
+	@Test
+	public void testReadAllAndCost2(){
+		List<OrderResults> OrderResults = new ArrayList<>();
+		OrderResults.add(new OrderResults(10L, "Bart", "Simpson", 3L, 7L, "Archery Set", 4L, 12F));
+
+        Mockito.when(utils.getString()).thenReturn("acfgk","yes", "10" );
+
+		Mockito.when(dao.readAll()).thenReturn(OrderResults);
+
+		//Mockito.when(controller.calculateCostOfOrderId()).thenReturn(48.0F);
+
+		//assertEquals(new Float(48.0F), controller.calculateCostOfOrderId());
+		assertEquals(OrderResults, controller.readAll());
+
+        Mockito.verify(utils, Mockito.times(3)).getString();
+		Mockito.verify(dao, Mockito.times(1)).readAll();
+	}
+
+	@Test
 	public void testReadAll() {
 		List<OrderResults> OrderResults = new ArrayList<>();
 		OrderResults.add(new OrderResults(10L, "Bart", "Simpson", 3L, 7L, "Archery Set", 4L, 12F));
@@ -90,6 +143,69 @@ public class OrderControllerTest {
 
 		Mockito.verify(utils, Mockito.times(1)).getLong();
 		Mockito.verify(dao, Mockito.times(1)).delete(ID);
+	}
+
+	@Test
+	public void testUpdateWithAdd(){
+		OrderResults updated = new OrderResults(10L, "Bart", "Simpson", 3L, 7L, "Archery Set", 4L, 12F);
+
+        Order orderInput = new Order(10L, 3L);
+		Mockito.when(utils.getString()).thenReturn("10", "3", "add","3", "7", "no" );
+
+		Mockito.when(this.dao.update(orderInput)).thenReturn(updated);
+
+		assertEquals(updated, this.controller.update());
+
+		Mockito.verify(utils, Mockito.times(6)).getString();
+		Mockito.verify(this.dao, Mockito.times(1)).update(orderInput);
+
+	}
+		@Test
+		public void testUpdateWithAdd2(){
+		OrderResults updated = new OrderResults(10L, "Bart", "Simpson", 3L, 7L, "Archery Set", 4L, 12F);
+
+        Order orderInput = new Order(10L, 3L);
+		Mockito.when(utils.getString()).thenReturn("10", "3", "add","3", "7", "yes", "4", "6", "no" );
+
+		Mockito.when(this.dao.update(orderInput)).thenReturn(updated);
+
+		assertEquals(updated, this.controller.update());
+
+		Mockito.verify(utils, Mockito.times(9)).getString();
+		Mockito.verify(this.dao, Mockito.times(1)).update(orderInput);
+
+	}
+
+	@Test
+		public void testUpdateWithDelete(){
+		OrderResults updated = new OrderResults(10L, "Bart", "Simpson", 3L, 7L, "Archery Set", 4L, 12F);
+
+        Order orderInput = new Order(10L, 3L);
+		Mockito.when(utils.getString()).thenReturn("10", "3", "delete","3", "no");
+
+		Mockito.when(this.dao.update(orderInput)).thenReturn(updated);
+
+		assertEquals(updated, this.controller.update());
+
+		Mockito.verify(utils, Mockito.times(5)).getString();
+		Mockito.verify(this.dao, Mockito.times(1)).update(orderInput);
+
+	}
+
+	@Test
+		public void testUpdateWithDelete2(){
+		OrderResults updated = new OrderResults(10L, "Bart", "Simpson", 3L, 7L, "Archery Set", 4L, 12F);
+
+        Order orderInput = new Order(10L, 3L);
+		Mockito.when(utils.getString()).thenReturn("10", "3", "delete","3", "yes", "2", "no");
+
+		Mockito.when(this.dao.update(orderInput)).thenReturn(updated);
+
+		assertEquals(updated, this.controller.update());
+
+		Mockito.verify(utils, Mockito.times(7)).getString();
+		Mockito.verify(this.dao, Mockito.times(1)).update(orderInput);
+
 	}
     
 

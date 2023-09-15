@@ -16,4 +16,17 @@ CREATE TABLE IF NOT EXISTS `customers` (
     PRIMARY KEY (`id`)
 );
 
+CREATE TABLE IF NOT EXISTS `orders` (
+    `id` INT(11) NOT NULL AUTO_INCREMENT,
+    `customer_id` INT(11),
+    PRIMARY KEY (`id`)
+);
+
+CREATE TABLE IF NOT EXISTS `orders_items` (
+    `order_id` INT(11) NOT NULL,
+    `item_id` INT(11),
+    `quantity` INT(11)
+    PRIMARY KEY (`order_id`,`item_id`)
+);
+
 

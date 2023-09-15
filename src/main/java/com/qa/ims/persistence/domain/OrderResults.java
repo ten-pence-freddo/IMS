@@ -23,7 +23,7 @@ public class OrderResults {
 		this.price = price;
 	}
 
-  public Long getOrderId() {
+  	public Long getOrderId() {
 		return orderId;
 	}
 
@@ -91,16 +91,19 @@ public class OrderResults {
 	public String toString() {
 		return "order_id:" + orderId + " first_name:" + firstName + " surname:" + surname + " customer_id:" + customerId + " item_id:" + itemId + " item_name:" + itemName + " quantity:" + quantity + " price_per_item:" + price;
 	}
-
-  /* 
+ 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((stockQuantity == null) ? 0 : stockQuantity.hashCode());
-        result = prime * result + ((price == null) ? 0 : price.hashCode());
+		result = prime * result + ((orderId == null) ? 0 : orderId.hashCode());
+		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
+		result = prime * result + ((surname == null) ? 0 : surname.hashCode());
+        result = prime * result + ((customerId == null) ? 0 : customerId.hashCode());
+		result = prime * result + ((itemId == null) ? 0 : itemId.hashCode());
+        result = prime * result + ((itemName == null) ? 0 : itemName.hashCode());
+		result = prime * result + ((quantity == null) ? 0 : quantity.hashCode());
+		result = prime * result + ((price == null) ? 0 : price.hashCode());
 		return result;
 	}
 
@@ -112,28 +115,48 @@ public class OrderResults {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Item other = (Item) obj;
-		if (getName() == null) {
-			if (other.getName() != null)
+		OrderResults other = (OrderResults) obj;
+		if (getOrderId() == null) {
+			if (other.getOrderId() != null)
 				return false;
-		} else if (!getName().equals(other.getName()))
+		} else if (!getOrderId().equals(other.getOrderId()))
 			return false;
-		if (id == null) {
-			if (other.id != null)
+		if (getFirstName() == null) {
+			if (other.getFirstName() != null)
 				return false;
-		} else if (!id.equals(other.id))
+		} else if (!getFirstName().equals(other.getFirstName()))
 			return false;
-		if (price == null) {
-			if (other.price != null)
+		if (getSurname() == null) {
+			if (other.getSurname() != null)
 				return false;
-		} else if (!price.equals(other.price))
+		} else if (!getSurname().equals(other.getSurname()))
 			return false;
-        if (stockQuantity == null) {
-			if (other.stockQuantity != null)
+        if (getCustomerId() == null) {
+			if (other.getCustomerId() != null)
 				return false;
-		} else if (!stockQuantity.equals(other.stockQuantity))
+		} else if (!getCustomerId().equals(other.getCustomerId()))
+			return false;
+		 if (getItemId() == null) {
+			if (other.getItemId() != null)
+				return false;
+		} else if (!getItemId().equals(other.getItemId()))
+			return false;
+		 if (getItemName() == null) {
+			if (other.getItemName() != null)
+				return false;
+		} else if (!getItemName().equals(other.getItemName()))
+			return false;
+		if (getQuantity() == null) {
+			if (other.getQuantity() != null)
+				return false;
+		} else if (!getQuantity().equals(other.getQuantity()))
+			return false;
+		if (getPrice() == null) {
+			if (other.getPrice() != null)
+				return false;
+		} else if (!getPrice().equals(other.getPrice()))
 			return false;
 		return true;
-	}*/
+	}
 
 }
